@@ -1,8 +1,17 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  useEffect(() => {
+    AOS.init({
+      delay: 300,
+      duration: 800,
+    });
+  });
+  return <Component {...pageProps} />;
 }
 
-export default MyApp
+export default MyApp;
