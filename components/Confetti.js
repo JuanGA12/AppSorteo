@@ -14,18 +14,12 @@ const canvasStyles = {
   top: 0,
   left: 0,
 };
-const Confetti = ({
-  fireState,
-  setFireState,
-}: {
-  fireState: boolean;
-  setFireState: Dispatch<SetStateAction<boolean>>;
-}) => {
+const Confetti = ({ fireState, setFireState }) => {
   const refAnimationInstance = useRef(null);
-  const getInstance = useCallback((instance: any) => {
+  const getInstance = useCallback((instance) => {
     refAnimationInstance.current = instance;
   }, []);
-  const makeShot = useCallback((particleRatio: any, opts: any) => {
+  const makeShot = useCallback((particleRatio, opts) => {
     refAnimationInstance.current &&
       refAnimationInstance.current({
         ...opts,

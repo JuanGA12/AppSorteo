@@ -31,7 +31,7 @@ const FileModal = ({
     const rows = str.slice(str.indexOf('\n') + 1).split('\n');
     const arr = rows.map(function (row) {
       const values = row.split(delimiter);
-      const el = headers.reduce(function (object, header, index) {
+      const el = headers.reduce(function (object: any, header, index) {
         object[header] = values[index];
         return object;
       }, {} as Participant);
