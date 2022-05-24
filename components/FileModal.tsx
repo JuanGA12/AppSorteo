@@ -1,17 +1,46 @@
-import { Dispatch, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useCSVContext } from '../context/csvContext';
 
-interface props {
-  file: string[] | undefined;
-  setFile: Dispatch<string[] | undefined>;
+interface Participant {
+  APELLIDO_Y_NOMBRES: string;
+  DOC_IDENTIDAD: string;
+  MODALIDAD: string;
+  GANO: string;
 }
-const FileModal = ({ file, setFile }: props) => {
-  const [show, setShow] = useState<boolean>(false);
+const ENUM = {
+  VIRTUAL: '1',
+  PRESENCIAL: '2',
+  NO_ESTA: '3',
+};
+
+const FileModal = ({
+  show,
+  setShow,
+}: {
+  show: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
+}) => {
   const handleClose = () => setShow(false);
-  const csvToArrayandValidate = (str: string) => {
-    return str.replace(/\r/g, '').split('\n');
+  const { saveData, csv } = useCSVContext();
+  const csvToArrayandValidate = (str: string, delimiter = ',') => {
+    str = str.replace(/\r/g, '');
+    const headers = str.slice(0, str.indexOf('\n')).split(delimiter);
+    const rows = str.slice(str.indexOf('\n') + 1).split('\n');
+    const arr = rows.map(function (row) {
+      const values = row.split(delimiter);
+      const el = headers.reduce(function (object, header, index) {
+        object[header] = values[index];
+        return object;
+      }, {} as Participant);
+      return el;
+    });
+    const newArr = arr.filter((part) => part.MODALIDAD != ENUM.NO_ESTA);
+    const arrPres = newArr.filter((part) => part.MODALIDAD == ENUM.PRESENCIAL);
+    const arrayToDraw = [...newArr, ...arrPres];
+    return arrayToDraw as Array<Participant>;
   };
   const handleChange = (e: any) => {
     const file = e.target.files![0] || false;
@@ -19,14 +48,11 @@ const FileModal = ({ file, setFile }: props) => {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const text = e.target.result;
-        setFile(csvToArrayandValidate(text));
+        saveData(csvToArrayandValidate(text));
       };
       reader.readAsText(file);
     }
   };
-  useEffect(() => {
-    setShow(true);
-  }, []);
   return (
     <Modal
       centered
@@ -55,7 +81,7 @@ const FileModal = ({ file, setFile }: props) => {
         <Button
           variant="primary"
           onClick={() => {
-            if (file) handleClose();
+            if (csv) handleClose();
           }}
         >
           Subir

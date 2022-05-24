@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import { CSVContext, useCSVContextState } from '../context/csvContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -11,7 +12,13 @@ function MyApp({ Component, pageProps }: AppProps) {
       duration: 800,
     });
   });
-  return <Component {...pageProps} />;
+
+  const csvValues = useCSVContextState();
+  return (
+    <CSVContext.Provider value={csvValues}>
+      <Component {...pageProps} />
+    </CSVContext.Provider>
+  );
 }
 
 export default MyApp;

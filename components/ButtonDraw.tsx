@@ -8,9 +8,10 @@ const ButtonDraw = ({ isLoading, handleClick }: props) => {
   return (
     <Button
       size="lg"
-      variant={isLoading ? 'outline-secondary' : 'success'}
+      variant={isLoading ? 'outline-warning' : 'success'}
       disabled={isLoading}
       onClick={handleClick}
+      style={{ zIndex: '1', marginTop: '20px' }}
     >
       <div className="d-flex">
         <span>{!isLoading ? '🎉 Sortear 🎉' : 'Sorteando'}</span>
@@ -19,7 +20,7 @@ const ButtonDraw = ({ isLoading, handleClick }: props) => {
             <Spinner
               as="span"
               animation="grow"
-              variant="dark"
+              variant="warning"
               size="sm"
               role="status"
               aria-hidden="true"
@@ -27,7 +28,7 @@ const ButtonDraw = ({ isLoading, handleClick }: props) => {
             <Spinner
               as="span"
               animation="grow"
-              variant="dark"
+              variant="warning"
               size="sm"
               role="status"
               aria-hidden="true"
@@ -35,7 +36,7 @@ const ButtonDraw = ({ isLoading, handleClick }: props) => {
             <Spinner
               as="span"
               animation="grow"
-              variant="dark"
+              variant="warning"
               size="sm"
               role="status"
               aria-hidden="true"

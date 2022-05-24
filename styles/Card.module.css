@@ -1,22 +1,12 @@
-.centerSection {
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
 .modal {
-  width: 300px;
+  width: 600px;
   margin: 0 auto;
   border: 1px solid #d7dbe3;
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.16);
+  box-shadow: 0px 0px 20px 7px rgb(0 0 0 / 51%);
   background-color: #fff;
   border-radius: 0.25rem;
   padding: 2rem;
   z-index: 1;
-  margin-bottom: 20px;
 }
 
 .emoji {
@@ -40,22 +30,24 @@
 
 .title {
   text-align: center;
-  font-size: 1em;
+  font-size: 2em;
   margin-top: 20px;
   margin-bottom: 20px;
+  color: black;
 }
 
 .modalbtn {
   display: block;
   margin: 0 -2rem -2rem -2rem;
   padding: 1rem 2rem;
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
   text-align: center;
   color: #fff;
   font-weight: 600;
   border-radius: 0 0 0.25rem 0.25rem;
-  background-color: #0cd977;
+  background-color: #d10909d9;
+  /* #0cd977 */
   text-decoration: none;
 }
 

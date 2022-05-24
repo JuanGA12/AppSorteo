@@ -1,57 +1,71 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
-import FileModal from '../components/FileModal';
-import styles from '../styles/Card.module.css';
+import { useEffect, useState } from 'react';
+import styles from '../styles/Page.module.css';
 import ButtonDraw from '../components/ButtonDraw';
 import Confetti from '../components/Confetti';
+import CardWinner from '../components/CardWinner';
+import { useCSVContext } from '../context/csvContext';
+import FileModal from '../components/FileModal';
+import { BsCloudUpload } from 'react-icons/bs';
 
+interface Participant {
+  APELLIDO_Y_NOMBRES: string;
+  DOC_IDENTIDAD: string;
+  MODALIDAD: string;
+  GANO: string;
+}
 const Home: NextPage = () => {
-  const [file, setFile] = useState<Array<string>>();
-  const [value, setValue] = useState<string>();
+  // const [file, setFile] = useState<Array<Participant>>();
+  const { saveData, csv } = useCSVContext();
+  const [winner, setWinner] = useState<Participant>();
   const [isLoading, setLoading] = useState<boolean>(false);
-  const [winner, setWinner] = useState<boolean>(false);
+  const [result, setResult] = useState<boolean>(false);
   const [fireState, setFireState] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
   const random = (min: number, max: number) =>
     Math.floor(Math.random() * (max - min)) + min;
   const handleClick = () => {
-    setWinner(false);
+    setResult(false);
     setLoading(true);
+    const newArr = csv!.filter((part) => part.GANO == 'NO');
+    let randomT: number;
     const refreshIntervalId = setInterval(() => {
-      const randomT = random(0, file!.length - 1);
-      setValue(file![randomT]);
+      randomT = random(0, newArr.length - 1);
+      setWinner(newArr[randomT]);
     }, 90);
     setTimeout(() => {
       clearInterval(refreshIntervalId);
       setFireState(true);
-      setWinner(true);
+      setResult(true);
       setLoading(false);
+      const arr = [...newArr];
+      arr[randomT].GANO = 'SI';
+      saveData(arr);
     }, 5000);
   };
+
   return (
     <>
-      <FileModal file={file} setFile={setFile} />
-      <div
-        style={{ height: '100vh', width: '100vw' }}
-        className="d-flex align-items-center flex-column"
-      >
-        <h1>Bienvenido al sorteo del innovatón</h1>
+      <FileModal show={show} setShow={setShow} />
+      <div className={styles.pageContainer}>
+        <h1>Bienvenido al sorteo de la innovatón</h1>
         <section className={styles.centerSection}>
-          {winner ? (
-            <div
-              className={styles.modal}
-              data-aos={'flip-up'}
-              data-aos-easing={'ease-out-cubic'}
-            >
-              <span className={styles.emoji}>🏆</span>
-              <div className={styles.title}>Felicidades, Juan</div>
-              <div className={styles.modalbtn}>Ganador</div>
-            </div>
+          {result ? (
+            <CardWinner winner={winner as Participant} />
           ) : (
-            <h2>{value}</h2>
+            <h2>{winner?.APELLIDO_Y_NOMBRES}</h2>
           )}
           <Confetti fireState={fireState} setFireState={setFireState} />
-          <ButtonDraw isLoading={isLoading} handleClick={handleClick} />
+          <ButtonDraw
+            isLoading={isLoading}
+            handleClick={() => {
+              if (csv) handleClick();
+            }}
+          />
         </section>
+        <div className={styles.icon} onClick={() => setShow(true)}>
+          <BsCloudUpload size={30} />
+        </div>
       </div>
     </>
   );
