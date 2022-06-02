@@ -1,0 +1,8 @@
+.button {
+  z-index: 1;
+  margin-top: 20px;
+  border: 2px solid #4b4ccc;
+  background-color: transparent;
+  padding: 10px 60px;
+  color: #4b4ccc;
+}

@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useCSVContext } from '../context/csvContext';
+import styles from '../styles/Modal.module.css';
+import styles2 from '../styles/Button.module.css';
 
 interface Participant {
   APELLIDO_Y_NOMBRES: string;
@@ -15,7 +17,6 @@ const ENUM = {
   PRESENCIAL: '2',
   NO_ESTA: '3',
 };
-
 const FileModal = ({
   show,
   setShow,
@@ -25,13 +26,14 @@ const FileModal = ({
 }) => {
   const handleClose = () => setShow(false);
   const { saveData, csv } = useCSVContext();
+  const [fileName, setFileName] = useState<string>();
   const csvToArrayandValidate = (str: string, delimiter = ',') => {
     str = str.replace(/\r/g, '');
     const headers = str.slice(0, str.indexOf('\n')).split(delimiter);
     const rows = str.slice(str.indexOf('\n') + 1).split('\n');
-    const arr = rows.map(function (row) {
+    const arr = rows.map((row) => {
       const values = row.split(delimiter);
-      const el = headers.reduce(function (object: any, header, index) {
+      const el = headers.reduce((object: any, header, index) => {
         object[header] = values[index];
         return object;
       }, {} as Participant);
@@ -49,23 +51,48 @@ const FileModal = ({
       reader.onload = (e: any) => {
         const text = e.target.result;
         saveData(csvToArrayandValidate(text));
+        setFileName(file.name);
       };
       reader.readAsText(file);
     }
   };
   return (
     <Modal
+      size="lg"
       centered
       show={show}
       onHide={() => handleClose()}
-      backdrop="static"
+      // backdrop="static"
+      backdropClassName={styles.modal2}
+      contentClassName={styles.modal}
       keyboard={false}
     >
       <Modal.Header>
-        <Modal.Title>Sube el archivo CSV</Modal.Title>
+        <Modal.Title className={styles.title}>Sube el archivo CSV</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <div style={{ padding: '10px 30px' }}>
+          <div className={styles.inputTitle}>Archivo CSV</div>
+          <div className="d-flex align-items-center">
+            <input
+              id="inputFile"
+              type="file"
+              accept=".csv"
+              name="inputCSV"
+              className={styles.inputFile}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+            />
+            <label htmlFor="inputFile" className={styles.labelInput}>
+              Seleccionar Archivo
+            </label>
+            <div className={styles.fileName}>
+              {fileName ? fileName : 'Ningun archivo seleccionado'}
+            </div>
+          </div>
+        </div>
+        {/* <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Archivo CSV</Form.Label>
             <Form.Control
@@ -75,17 +102,17 @@ const FileModal = ({
               onChange={(e) => handleChange(e)}
             />
           </Form.Group>
-        </Form>
+        </Form> */}
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="primary"
+        <button
+          className={styles2.button}
           onClick={() => {
             if (csv) handleClose();
           }}
         >
           Subir
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

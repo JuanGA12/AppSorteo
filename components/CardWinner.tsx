@@ -12,9 +12,10 @@ const CardWinner = ({ winner }: { winner: Participant }) => {
       data-aos={'zoom-in'}
       data-aos-easing={'ease-out-cubic'}
     >
-      <span className={styles.emoji}>🏆</span>
+      <div style={{ color: '#F5F5F5', fontWeight: '500', fontSize: '40px' }}>
+        Ganador
+      </div>
       <div className={styles.title}>{winner.APELLIDO_Y_NOMBRES}</div>
-      <div className={styles.modalbtn}>Ganador</div>
     </div>
   );
 };

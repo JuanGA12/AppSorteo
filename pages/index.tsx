@@ -48,12 +48,15 @@ const Home: NextPage = () => {
     <>
       <FileModal show={show} setShow={setShow} />
       <div className={styles.pageContainer}>
-        <h1>Bienvenido al sorteo de la innovatón</h1>
+        <picture>
+          <img src="/header.png" alt="" />
+        </picture>
+        <h1 style={{ marginTop: '40px' }}>SORTEO INNOVATÓN 2022</h1>
         <section className={styles.centerSection}>
           {result ? (
             <CardWinner winner={winner as Participant} />
           ) : (
-            <h2>{winner?.APELLIDO_Y_NOMBRES}</h2>
+            <h2 style={{ color: '#43E987' }}>{winner?.APELLIDO_Y_NOMBRES}</h2>
           )}
           <Confetti fireState={fireState} setFireState={setFireState} />
           <ButtonDraw
@@ -64,8 +67,27 @@ const Home: NextPage = () => {
           />
         </section>
         <div className={styles.icon} onClick={() => setShow(true)}>
-          <BsCloudUpload size={30} />
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M0.686554 22.4885H25.3134V25.5669L0.686554 25.5671V22.4885ZM14.533 6.82602V20.1571H11.4667V6.82602L7.8557 10.4372L5.67934 8.26086L12.9999 0.940308L20.3204 8.26086L18.1441 10.4372L14.533 6.82602Z"
+              fill="#43E987"
+            />
+          </svg>
         </div>
+        <picture className={styles.hand}>
+          <img src="/hand.png" alt="" />
+        </picture>
+        <picture className={styles.footer}>
+          <img src="/footer.png" style={{ width: '100vw' }} alt="" />
+        </picture>
       </div>
     </>
   );
