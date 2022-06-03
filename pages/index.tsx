@@ -48,10 +48,12 @@ const Home: NextPage = () => {
     <>
       <FileModal show={show} setShow={setShow} />
       <div className={styles.pageContainer}>
-        <picture>
-          <img src="/header.png" alt="" />
+        <picture style={{ zIndex: '2' }}>
+          <img src="/header.png" alt="" draggable={false} />
         </picture>
-        <h1 style={{ marginTop: '40px' }}>SORTEO INNOVATÓN 2022</h1>
+        <h1 style={{ marginTop: '40px', zIndex: '2' }}>
+          SORTEO INNOVATÓN 2022
+        </h1>
         <section className={styles.centerSection}>
           {result ? (
             <CardWinner winner={winner as Participant} />
@@ -83,10 +85,20 @@ const Home: NextPage = () => {
           </svg>
         </div>
         <picture className={styles.hand}>
-          <img src="/hand.png" alt="" />
+          <img
+            src="/hand.png"
+            style={{ height: '100vh' }}
+            alt=""
+            draggable={false}
+          />
         </picture>
         <picture className={styles.footer}>
-          <img src="/footer.png" style={{ width: '100vw' }} alt="" />
+          <img
+            src="/footer.png"
+            style={{ width: '100vw' }}
+            alt=""
+            draggable={false}
+          />
         </picture>
       </div>
     </>

@@ -24,7 +24,7 @@
   flex-direction: column;
 }
 .icon {
-  z-index: 2;
+  z-index: 1;
   cursor: pointer;
   position: absolute;
   display: flex;
