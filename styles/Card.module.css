@@ -36,6 +36,18 @@
   color: #43e987;
 }
 
+.company {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #43e987;
+  font-weight: 300;
+}
+.modalidad {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #43e987;
+  font-weight: 300;
+}
 /* .modalbtn {
   display: block;
   margin: 0 -2rem -2rem -2rem;

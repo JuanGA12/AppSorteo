@@ -5,18 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useCSVContext } from '../context/csvContext';
 import styles from '../styles/Modal.module.css';
 import styles2 from '../styles/Button.module.css';
+import ParticipantI from '../helpers/interfaces/ParticipantI';
 
-interface Participant {
-  APELLIDO_Y_NOMBRES: string;
-  DOC_IDENTIDAD: string;
-  MODALIDAD: string;
-  GANO: string;
-}
-const ENUM = {
-  VIRTUAL: '1',
-  PRESENCIAL: '2',
-  NO_ESTA: '3',
-};
 const FileModal = ({
   show,
   setShow,
@@ -27,6 +17,26 @@ const FileModal = ({
   const handleClose = () => setShow(false);
   const { saveData, csv } = useCSVContext();
   const [fileName, setFileName] = useState<string>();
+  // const getEmpresa = (id: string) => {
+  //   switch (id) {
+  //     case '1':
+  //       return 'Interbank';
+  //     case '2':
+  //       return 'Inteligo';
+  //     case '3':
+  //       return 'Interseguro';
+  //   }
+  // };
+  const getModalidad = (id: string) => {
+    switch (id) {
+      case '1':
+        return 'Streaming';
+      case '2':
+        return 'Presencial';
+      case '3':
+        return 'No está';
+    }
+  };
   const csvToArrayandValidate = (str: string, delimiter = ',') => {
     str = str.replace(/\r/g, '');
     const headers = str.slice(0, str.indexOf('\n')).split(delimiter);
@@ -34,15 +44,17 @@ const FileModal = ({
     const arr = rows.map((row) => {
       const values = row.split(delimiter);
       const el = headers.reduce((object: any, header, index) => {
-        object[header] = values[index];
+        if (header == 'MODO') {
+          object[header] = getModalidad(values[index]);
+        } else object[header] = values[index];
         return object;
-      }, {} as Participant);
+      }, {} as ParticipantI);
       return el;
     });
-    const newArr = arr.filter((part) => part.MODALIDAD != ENUM.NO_ESTA);
-    const arrPres = newArr.filter((part) => part.MODALIDAD == ENUM.PRESENCIAL);
+    const newArr = arr.filter((part) => part.MODO != 'No está');
+    const arrPres = newArr.filter((part) => part.MODO == 'Presencial');
     const arrayToDraw = [...newArr, ...arrPres];
-    return arrayToDraw as Array<Participant>;
+    return arrayToDraw as Array<ParticipantI>;
   };
   const handleChange = (e: any) => {
     const file = e.target.files![0] || false;

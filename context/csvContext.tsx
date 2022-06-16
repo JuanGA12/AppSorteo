@@ -10,10 +10,13 @@ interface ContextType {
   saveData: (data: Participant[]) => void;
 }
 interface Participant {
-  APELLIDO_Y_NOMBRES: string;
+  NOMBRES: string;
+  APELLIDOS: string;
   DOC_IDENTIDAD: string;
-  MODALIDAD: string;
+  MODO: string;
   GANO: string;
+  EMAIL: string;
+  EMPRESA: string;
 }
 export const CSVContext = createContext<ContextType>({} as ContextType);
 

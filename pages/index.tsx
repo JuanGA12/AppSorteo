@@ -7,17 +7,12 @@ import CardWinner from '../components/CardWinner';
 import { useCSVContext } from '../context/csvContext';
 import FileModal from '../components/FileModal';
 import { BsCloudUpload } from 'react-icons/bs';
+import ParticipantI from '../helpers/interfaces/ParticipantI';
 
-interface Participant {
-  APELLIDO_Y_NOMBRES: string;
-  DOC_IDENTIDAD: string;
-  MODALIDAD: string;
-  GANO: string;
-}
 const Home: NextPage = () => {
   // const [file, setFile] = useState<Array<Participant>>();
   const { saveData, csv } = useCSVContext();
-  const [winner, setWinner] = useState<Participant>();
+  const [winner, setWinner] = useState<ParticipantI>();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<boolean>(false);
   const [fireState, setFireState] = useState<boolean>(false);
@@ -56,9 +51,12 @@ const Home: NextPage = () => {
         </h1>
         <section className={styles.centerSection}>
           {result ? (
-            <CardWinner winner={winner as Participant} />
+            <CardWinner winner={winner as ParticipantI} />
           ) : (
-            <h2 style={{ color: '#43E987' }}>{winner?.APELLIDO_Y_NOMBRES}</h2>
+            <h2 style={{ color: '#43E987' }}>
+              {winner?.NOMBRES}
+              {winner ? ' ' : ''} {winner?.APELLIDOS}
+            </h2>
           )}
           <Confetti fireState={fireState} setFireState={setFireState} />
           <ButtonDraw
