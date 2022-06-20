@@ -6,3 +6,9 @@
   padding: 10px 60px;
   color: #4b4ccc;
 }
+
+@media (min-width: 1679px) {
+  .button {
+    font-size: 1.5rem !important;
+  }
+}

@@ -1,7 +1,5 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useCSVContext } from '../context/csvContext';
 import styles from '../styles/Modal.module.css';
 import styles2 from '../styles/Button.module.css';
@@ -17,16 +15,6 @@ const FileModal = ({
   const handleClose = () => setShow(false);
   const { saveData, csv } = useCSVContext();
   const [fileName, setFileName] = useState<string>();
-  // const getEmpresa = (id: string) => {
-  //   switch (id) {
-  //     case '1':
-  //       return 'Interbank';
-  //     case '2':
-  //       return 'Inteligo';
-  //     case '3':
-  //       return 'Interseguro';
-  //   }
-  // };
   const getModalidad = (id: string) => {
     switch (id) {
       case '1':
@@ -51,7 +39,9 @@ const FileModal = ({
       }, {} as ParticipantI);
       return el;
     });
-    const newArr = arr.filter((part) => part.MODO != 'No está');
+    const newArr = arr.filter(
+      (part) => part.MODO != 'No está' && part.GANO == 'NO'
+    );
     const arrPres = newArr.filter((part) => part.MODO == 'Presencial');
     const arrayToDraw = [...newArr, ...arrPres];
     return arrayToDraw as Array<ParticipantI>;

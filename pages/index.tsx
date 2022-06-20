@@ -46,7 +46,10 @@ const Home: NextPage = () => {
         <picture style={{ zIndex: '2' }}>
           <img src="/header.png" alt="" draggable={false} />
         </picture>
-        <h1 style={{ marginTop: '40px', zIndex: '2' }}>
+        <h1
+          className={styles.pageTitle}
+          style={{ marginTop: '40px', zIndex: '2' }}
+        >
           SORTEO INNOVATÓN 2022
         </h1>
         <section className={styles.centerSection}>

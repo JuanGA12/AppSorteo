@@ -42,3 +42,13 @@
   position: fixed;
   bottom: 0;
 }
+@media (max-width: 1024px) {
+  .centerSection {
+    bottom: 40%;
+  }
+}
+@media (min-width: 1679px) {
+  .pageTitle {
+    font-size: 3rem !important;
+  }
+}

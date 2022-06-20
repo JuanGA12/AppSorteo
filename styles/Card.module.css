@@ -61,3 +61,24 @@
   background-color: #d10909d9;
   text-decoration: none;
 } */
+@media (max-width: 1024px) {
+  .modal {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1679px) {
+  .modal {
+    width: 950px;
+  }
+  .title {
+    font-size: 2.5em;
+  }
+
+  .company {
+    font-size: 2.2rem;
+  }
+  .modalidad {
+    font-size: 2.2rem;
+  }
+}
